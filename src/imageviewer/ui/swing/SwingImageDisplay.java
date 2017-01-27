@@ -28,21 +28,19 @@ public class SwingImageDisplay extends JPanel implements ImageDisplay {
 
     private Component imagePanel() {
         return new JPanel() {
-            
+            @Override
+            public void paint(Graphics g) {
+                g.drawImage(bitmap(), 0, 0, this.getWidth(), this.getHeight(), null);
+            }
+
+            private java.awt.Image bitmap() {
+                try {
+                    return ImageIO.read(new ByteArrayInputStream(image.bitmap()));
+                } catch (IOException ex) {
+                    return null;
+                }
+            }
         };
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        g.drawImage(bitmap(), 0, 0, this.getWidth(), this.getHeight(), null);
-    }
-
-    private java.awt.Image bitmap() {
-        try {
-            return ImageIO.read(new ByteArrayInputStream(image.bitmap()));
-        } catch (IOException ex) {
-            return null;
-        }
     }
 
     @Override
